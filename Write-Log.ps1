@@ -16,13 +16,11 @@
 
         [Parameter(Mandatory = $false,
             Position = 2)]
-        [Alias('LogPath')]
         [string]$Path = "$env:temp\PowershellScript.log",
 
         [Parameter(Mandatory = $false,
             Position = 0,
             ParameterSetName = 'STARTNEW')]
-        [Alias('Delete')]
         [switch]$StartNew,
 
         [Parameter(Mandatory = $false,
