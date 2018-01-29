@@ -19,12 +19,12 @@
         [string]$Path = "$env:temp\PowershellScript.log",
 
         [Parameter(Mandatory = $false,
-            Position = 0,
+            Position = 3,
             ParameterSetName = 'STARTNEW')]
         [switch]$StartNew,
 
         [Parameter(Mandatory = $false,
-            Position = 5,
+            Position = 4,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'EXCEPTION')]
