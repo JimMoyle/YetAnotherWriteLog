@@ -60,28 +60,16 @@
                 Write-Verbose 'Date is $FormattedDate'
 
                 switch ( $Level ) {
-                    'Error' {
-                        $LevelText = 'ERROR:  '; break
-                    }
-                    'Warn' {
-                        $LevelText = 'WARNING:'; break
-                    }
-                    'Info' {
-                        $LevelText = 'INFO:   '; break
-                    }
-                    default {
-                        Write-Verbose 'Did not find a match in switch'
-                    }
+                    'Error' { $LevelText = 'ERROR:  '; break }
+                    'Warn'  { $LevelText = 'WARNING:'; break }
+                    'Info'  { $LevelText = 'INFO:   '; break }
                 }
 
                 $logmessage = "$FormattedDate $LevelText $Message"
                 Write-Verbose $logmessage
 
-                # Write log entry to $Path
-
                 $logmessage | Add-Content -Path $Path
             }
-            Default { Write-Error 'Did not resolve parameter set'}
         }
 
     }
