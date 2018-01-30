@@ -8,7 +8,7 @@
     The Log file can be output to any directory (defaults to temp) and are timestamped. A single log entry looks like this:
     2018-01-30 14:40:35 INFO:    Processing c:\jimm\temp\8\8.vhdx
 
-    Log entries can be Info, warn or error
+    Log entries can be Info, Warn or Error
 
     The function takes pipeline input and you can pipe exceptions straight to the file for automatic logging.
 
