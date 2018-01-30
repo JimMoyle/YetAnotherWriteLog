@@ -42,14 +42,14 @@
 
         switch ($PSCmdlet.ParameterSetName) {
             EXCEPTION {
-                Write-Log -Level Error -Message $Exception.Exception.Message
+                Write-Log -Level Error -Message $Exception.Exception.Message -Path $Path
                 break
             }
             STARTNEW {
                 Write-Verbose -Message "Deleting log file $Path if it exists"
                 Remove-Item $Path -Force -ErrorAction SilentlyContinue
                 Write-Verbose -Message 'Deleted log file if it exists'
-                Write-Log 'Starting Logfile'
+                Write-Log 'Starting Logfile' -Path $Path
                 break
             }
             LOG {
