@@ -5,6 +5,6 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 
 Describe 'Write-Log' {
     It 'Should not throw when writing JSON files' {
-
+        Write-Log 'JSON test' -path TestDrive:\json.log -JSONFormat
     }
 }
