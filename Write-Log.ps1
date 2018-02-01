@@ -30,21 +30,27 @@
     .EXAMPLE
     Write-Log -StartNew
     Starts a new logfile in the default location
+
     .EXAMPLE
     Write-Log -StartNew -Path c:\logs\new.log
     Starts a new logfile in the specified location
+
     .EXAMPLE
     Write-Log 'This is some information'
     Appends a new information line to the log.
+
     .EXAMPLE
     Write-Log -level warning 'This is a warning'
     Appends a new warning line to the log.
+
     .EXAMPLE
     Write-Log -level Error 'This is an Error'
     Appends a new Error line to the log.
+
     .EXAMPLE
     Write-Log -Exception $error[0]
     Appends a new Error line to the log with the message being the contents of the exception message.
+
     .EXAMPLE
     $error[0] | Write-Log
     Appends a new Error line to the log with the message being the contents of the exception message.
@@ -76,6 +82,11 @@
 
         [Parameter(Mandatory = $false,
             Position = 4,
+            ParameterSetName = 'LOG')]
+        [switch]$JsonFormat,
+
+        [Parameter(Mandatory = $false,
+            Position = 5,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'EXCEPTION')]
@@ -114,7 +125,18 @@
                     'Info' { $LevelText = 'INFO:   '; break }
                 }
 
-                $logmessage = "$FormattedDate $LevelText $Message"
+                if ($JSONFormat) {
+                    $logObject = [PSCustomObject]@{
+                        TimeStamp = Get-Date -Format o
+                        Level     = $Level
+                        Message   = $Message
+                    }
+                    $logmessage = $logObject | ConvertTo-Json -Compress
+                }
+                else {
+                    $logmessage = "$FormattedDate $LevelText $Message"
+                }
+
                 Write-Verbose $logmessage
 
                 $logmessage | Add-Content -Path $Path
