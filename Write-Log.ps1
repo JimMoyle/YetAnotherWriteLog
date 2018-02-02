@@ -92,8 +92,7 @@
 
         [Parameter(Mandatory = $false,
             ValueFromPipelineByPropertyName = $true,
-            Position = 4,
-            ParameterSetName = 'LOG')]
+            Position = 4)]
         [switch]$JSONFormat,
 
         [Parameter(Mandatory = $false,
@@ -121,7 +120,7 @@
 
                 Write-Log @WriteLogParams
                 break
-            }
+            } #EXCEPTION
             STARTNEW {
                 Remove-Item $Path -Force -ErrorAction SilentlyContinue
                 $WriteLogParams = @{
@@ -132,14 +131,15 @@
                 }
                 Write-Log @WriteLogParams
                 break
-            }
+            } #STARTNEW
             LOG {
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
                 switch ( $Level ) {
                     'Error' { $LevelText = 'ERROR:  '; break }
-                    'Warn' { $LevelText = 'WARNING:'; break }
-                    'Info' { $LevelText = 'INFO:   '; break }
+                    'Warn'  { $LevelText = 'WARNING:'; break }
+                    'Info'  { $LevelText = 'INFO:   '; break }
+                    'Debug' { $LevelText = 'DEBUG:  '; break }
                 }
 
                 if ($JSONFormat) {
@@ -156,9 +156,8 @@
 
                 $logmessage | Add-Content -Path $Path
                 Write-Verbose $logmessage
-            }
-        }
-
+            } #LOG
+        } #switch Parameter Set
     }
     END {
     }
