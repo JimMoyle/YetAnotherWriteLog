@@ -134,9 +134,7 @@
                 break
             }
             LOG {
-                Write-Verbose 'Getting Date for our Log File'
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                Write-Verbose 'Date is $FormattedDate'
 
                 switch ( $Level ) {
                     'Error' { $LevelText = 'ERROR:  '; break }
@@ -163,6 +161,5 @@
 
     }
     END {
-        Write-Verbose "Finished: $($MyInvocation.Mycommand)"
     }
 } # enable logging
