@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/bio64jgm5edcte50?svg=true)](https://ci.appveyor.com/project/JimMoyle/yetanotherwritelog)
 # YetAnotherWriteLog
 
 
