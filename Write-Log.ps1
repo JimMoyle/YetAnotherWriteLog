@@ -65,6 +65,7 @@
     [CmdletBinding(DefaultParametersetName = "LOG")]
     Param (
         [Parameter(Mandatory = $true,
+            ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             Position = 0,
             ParameterSetName = 'LOG')]
@@ -72,21 +73,25 @@
         [string]$Message,
 
         [Parameter(Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true,
             Position = 1,
             ParameterSetName = 'LOG')]
         [ValidateSet("Error", "Warn", "Info")]
         [string]$Level = "Info",
 
         [Parameter(Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true,
             Position = 2)]
         [string]$Path = "$env:temp\PowershellScript.log",
 
         [Parameter(Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true,
             Position = 3,
             ParameterSetName = 'STARTNEW')]
         [switch]$StartNew,
 
         [Parameter(Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true,
             Position = 4,
             ParameterSetName = 'LOG')]
         [switch]$JSONFormat,
@@ -102,22 +107,30 @@
 
     BEGIN {
         Set-StrictMode -version Latest
-        $expandedParams = $null
-        $PSBoundParameters.GetEnumerator() | ForEach-Object { $expandedParams += ' -' + $_.key + ' '; $expandedParams += $_.value }
-        Write-Verbose "Starting: $($MyInvocation.MyCommand.Name)$expandedParams"
     }
     PROCESS {
 
         switch ($PSCmdlet.ParameterSetName) {
             EXCEPTION {
-                Write-Log -Level Error -Message $Exception.Exception.Message -Path $Path
+                $WriteLogParams = @{
+                    Level = 'Error'
+                    Message = $Exception.Exception.Message
+                    Path    = $Path
+                    JSONFormat = $JSONFormat
+                }
+
+                Write-Log @WriteLogParams
                 break
             }
             STARTNEW {
-                Write-Verbose -Message "Deleting log file $Path if it exists"
                 Remove-Item $Path -Force -ErrorAction SilentlyContinue
-                Write-Verbose -Message 'Deleted log file if it exists'
-                Write-Log 'Starting Logfile' -Path $Path
+                $WriteLogParams = @{
+                    Level      = 'Error'
+                    Message    = 'Starting Logfile'
+                    Path       = $Path
+                    JSONFormat = $JSONFormat
+                }
+                Write-Log @WriteLogParams
                 break
             }
             LOG {
