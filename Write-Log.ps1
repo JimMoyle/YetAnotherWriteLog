@@ -17,7 +17,7 @@
         This is the body of the log line and should contain information relevant to what you need to log.
         .PARAMETER Level
 
-        One of three logging levels: INFO, WARN or ERROR.  This is an optional parameter and defaults to INFO
+        One of four logging levels: INFO, WARN, ERROR or DEBUG.  This is an optional parameter and defaults to INFO
         .PARAMETER Path
 
         The path where you want the log file to be created.  This is an optional parameter and defaults to "$env:temp\PowershellScript.log"
@@ -60,6 +60,10 @@
         .EXAMPLE
         $error[0] | Write-Log
         Appends a new Error line to the log with the message being the contents of the exception message.
+
+        .EXAMPLE
+        'My log message' | Write-Log
+        Appends a new Info line to the log with the message being the contents of the string.
     #>
 
     [CmdletBinding(DefaultParametersetName = "LOG")]
@@ -76,7 +80,7 @@
             ValueFromPipelineByPropertyName = $true,
             Position = 1,
             ParameterSetName = 'LOG')]
-        [ValidateSet("Error", "Warn", "Info")]
+        [ValidateSet('Error', 'Warn', 'Info', 'Debug')]
         [string]$Level = "Info",
 
         [Parameter(Mandatory = $false,
@@ -108,18 +112,18 @@
         Set-StrictMode -version Latest
     }
     PROCESS {
-
+        #Switch on parameter set
         switch ($PSCmdlet.ParameterSetName) {
             EXCEPTION {
                 $WriteLogParams = @{
-                    Level = 'Error'
-                    Message = $Exception.Exception.Message
-                    Path    = $Path
+                    Level      = 'Error'
+                    Message    = $Exception.Exception.Message
+                    Path       = $Path
                     JSONFormat = $JSONFormat
                 }
-
                 Write-Log @WriteLogParams
                 break
+
             } #EXCEPTION
             STARTNEW {
                 Remove-Item $Path -Force -ErrorAction SilentlyContinue
@@ -131,20 +135,22 @@
                 }
                 Write-Log @WriteLogParams
                 break
+
             } #STARTNEW
             LOG {
+                #Get human readable date
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
                 switch ( $Level ) {
                     'Error' { $LevelText = 'ERROR:  '; break }
-                    'Warn'  { $LevelText = 'WARNING:'; break }
-                    'Info'  { $LevelText = 'INFO:   '; break }
+                    'Warn' { $LevelText = 'WARNING:'; break }
+                    'Info' { $LevelText = 'INFO:   '; break }
                     'Debug' { $LevelText = 'DEBUG:  '; break }
                 }
 
                 if ($JSONFormat) {
                     $logObject = [PSCustomObject]@{
-                        TimeStamp = Get-Date -Format o
+                        TimeStamp = Get-Date -Format o  #Get machine readable date
                         Level     = $Level
                         Message   = $Message
                     }
@@ -156,6 +162,7 @@
 
                 $logmessage | Add-Content -Path $Path
                 Write-Verbose $logmessage
+
             } #LOG
         } #switch Parameter Set
     }
