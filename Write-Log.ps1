@@ -70,6 +70,7 @@
         .EXAMPLE
         'My log message' | Write-Log
         Appends a new Info line to the log with the message being the contents of the string.
+
         .EXAMPLE
         Write-Log 'My log message' -JSONFormat
         Appends a new Info line to the log with the message. The line will be in JSONFormat.

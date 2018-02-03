@@ -12,16 +12,22 @@
         Single function to enable logging to a file
         .DESCRIPTION
 
-        The Log file can be output to any directory (defaults to temp) and are timestamped. A single log entry looks like this:
-        2018-01-30 14:40:35 INFO:    Processing c:\jimm\temp\8\8.vhdx
+        The Log file can be output to any directory. A single log entry looks like this:
+        2018-01-30 14:40:35 INFO:    'My log text'
 
-        Log entries can be Info, Warn or Error
+        Log entries can be Info, Warn, Error or Debug
 
-        The function takes pipeline input and you can pipe exceptions straight to the file for automatic logging.
+        The function takes pipeline input and you can even pipe exceptions straight to the function for automatic logging.
+
+        The $PSDefaultParameterValues built-in Variable can be used to conveniently set the path and/or JSONformat switch at the top of the script:
+
+        $PSDefaultParameterValues = @{"Write-Log:Path" = 'C:\YourPathHere'}
+
+        $PSDefaultParameterValues = @{"Write-Log:JSONformat" = $true}
 
         .PARAMETER Message
 
-        This is the body of the log line and should contain information relevant to what you need to log.
+        This is the body of the log line and should contain the information you wish to log.
         .PARAMETER Level
 
         One of four logging levels: INFO, WARN, ERROR or DEBUG.  This is an optional parameter and defaults to INFO
@@ -71,3 +77,7 @@
         .EXAMPLE
         'My log message' | Write-Log
         Appends a new Info line to the log with the message being the contents of the string.
+
+        .EXAMPLE
+        Write-Log 'My log message' -JSONFormat
+        Appends a new Info line to the log with the message. The line will be in JSONFormat.
