@@ -126,9 +126,9 @@
 
             } #EXCEPTION
             STARTNEW {
-                Remove-Item $Path -Force -ErrorAction SilentlyContinue
+                Remove-Item $Path -Force #-ErrorAction SilentlyContinue
                 $WriteLogParams = @{
-                    Level      = 'Error'
+                    Level      = 'Info'
                     Message    = 'Starting Logfile'
                     Path       = $Path
                     JSONFormat = $JSONFormat
@@ -142,10 +142,10 @@
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
                 switch ( $Level ) {
-                    'Error' { $LevelText = 'ERROR:  '; break }
-                    'Warn' { $LevelText = 'WARNING:'; break }
-                    'Info' { $LevelText = 'INFO:   '; break }
-                    'Debug' { $LevelText = 'DEBUG:  '; break }
+                    'Error' { $LevelText = "ERROR:  "; break }
+                    'Warn'  { $LevelText = "WARNING:"; break }
+                    'Info'  { $LevelText = "INFO:   "; break }
+                    'Debug' { $LevelText = "DEBUG:  "; break }
                 }
 
                 if ($JSONFormat) {
