@@ -1,21 +1,20 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$here = Split-Path $here
+$here = $MyInvocation.MyCommand.Path | Split-Path | Split-Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
 Describe 'Write-Log' {
     It 'Does not throw when writing files' {
-        Write-Log 'throw test' -path TestDrive:\thrw.log
+        { Write-Log 'throw test' -path TestDrive:\thrw.log } | Should not throw
     }
     It 'Does not throw when writing JSON files' {
-        Write-Log 'JSON test' -path TestDrive:\json.log -JSONFormat
+       { Write-Log 'JSON test' -path TestDrive:\json.log -JSONFormat } | Should not throw
     }
     It 'Produces help' {
         $h = help Write-Log
         $h.count | Should BeGreaterThan 10
     }
     It 'Has a timestamp' {
-        [datetime](Get-Content TestDrive:\json.log | ConvertFrom-Json).timestamp | Should BeOfType [System.DateTime]
+        [DateTime](Get-Content TestDrive:\json.log | ConvertFrom-Json).timestamp | Should BeOfType [DateTime]
     }
     It 'Has Info Level' {
         (Get-Content TestDrive:\json.log | ConvertFrom-Json).Level | Should Be 'Info'
@@ -48,7 +47,7 @@ Describe 'Write-Log' {
         Write-Log -StartNew -Path TestDrive:\Restart.log
         (Get-Content TestDrive:\Restart.log).Count | Should Be 1
     }
-    It 'Takes Pipeline Input' {
+    It 'Takes an object as pipeline Input' {
         $pipeInput = [PSCustomObject]@{
             Message    = 'Pipeline Input'
             Level      = 'Warn'
