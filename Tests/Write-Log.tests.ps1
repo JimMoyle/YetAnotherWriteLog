@@ -9,7 +9,7 @@ Describe 'Write-Log' {
     It 'Does not throw when writing JSON files' {
        { Write-Log 'JSON test' -path TestDrive:\json.log -JSONFormat } | Should not throw
     }
-    It 'Produces help' {
+    It 'Produces comment based help' {
         $h = help Write-Log
         $h.count | Should BeGreaterThan 10
     }
@@ -31,14 +31,14 @@ Describe 'Write-Log' {
         Write-Log -Level Debug -Message 'Debug Test' -JSONFormat -Path TestDrive:\Debug.log
         (Get-Content TestDrive:\Debug.log | ConvertFrom-Json).Level | Should Be 'Debug'
     }
-    It 'Has a message' {
+    It 'Has the correct message' {
         Write-Log -Message 'Message Test' -JSONFormat -Path TestDrive:\Message.log
         (Get-Content TestDrive:\Message.log | ConvertFrom-Json).Message | Should Be 'Message Test'
     }
-    It 'Has a single line of human readable text' {
+    It 'Has a single line in the human readable log' {
         (Get-Content TestDrive:\thrw.log).Count | Should Be 1
     }
-    It 'Has a single line of JSON text' {
+    It 'Has a single line in the JSON log' {
         (Get-Content TestDrive:\json.log).Count | Should Be 1
     }
     It 'Restarts a log' {
@@ -47,7 +47,7 @@ Describe 'Write-Log' {
         Write-Log -StartNew -Path TestDrive:\Restart.log
         (Get-Content TestDrive:\Restart.log).Count | Should Be 1
     }
-    It 'Takes an object as pipeline Input' {
+    It 'Takes an object as pipeline input' {
         $pipeInput = [PSCustomObject]@{
             Message    = 'Pipeline Input'
             Level      = 'Warn'
@@ -61,10 +61,13 @@ Describe 'Write-Log' {
         'Pipeline String Input' | Write-Log -Path TestDrive:\PipelineSingle.log -JSONFormat
         (Get-Content TestDrive:\PipelineSingle.log | ConvertFrom-Json).Message | Should Be 'Pipeline String Input'
     }
-    It 'Takes an Exception as pipeline input' {
+    It 'Takes an Exception as pipeline input and outputs the correct message' {
         Get-Item TestDrive:\NotExist.Fake -ErrorAction SilentlyContinue
         $error[0] | Write-Log -Path TestDrive:\PipelineErr.log -JSONFormat
         (Get-Content TestDrive:\PipelineErr.log | ConvertFrom-Json).Message | Should Be "Cannot find path 'TestDrive:\NotExist.Fake' because it does not exist."
+    }
+    It 'Takes an Exception as pipeline input and outputs the correct level' {
+        (Get-Content TestDrive:\PipelineErr.log | ConvertFrom-Json).Level | Should Be 'Error'
     }
     It 'Only outputs a single verbose line' {
         $verboseLine = Write-Log 'Verbose Test' -Verbose 4>&1
