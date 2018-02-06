@@ -152,6 +152,7 @@
                 Write-Verbose $logmessage #Only verbose line in the function
 
             } #LOG
+
             EXCEPTION {
                 #Splat parameters
                 $WriteLogParams = @{
@@ -164,6 +165,7 @@
                 break
 
             } #EXCEPTION
+
             STARTNEW {
                 Remove-Item $Path -Force -ErrorAction SilentlyContinue #Suppress error in the case of the file not existing or cannot be deleted.
                 #Splat parameters
