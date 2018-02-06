@@ -100,53 +100,30 @@
 
         [Parameter(Mandatory = $false,
             ValueFromPipelineByPropertyName = $true,
-            Position = 3,
-            ParameterSetName = 'STARTNEW')]
-        [switch]$StartNew,
-
-        [Parameter(Mandatory = $false,
-            ValueFromPipelineByPropertyName = $true,
-            Position = 4)]
+            Position = 3)]
         [switch]$JSONFormat,
 
         [Parameter(Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true,
+            Position = 4,
+            ParameterSetName = 'STARTNEW')]
+        [switch]$StartNew,
+
+        [Parameter(Mandatory = $true,
             Position = 5,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'EXCEPTION')]
         [System.Management.Automation.ErrorRecord]$Exception
-
     )
 
     BEGIN {
-        Set-StrictMode -version Latest
+        Set-StrictMode -version Latest #Enforces most strict best practice.
     }
+
     PROCESS {
         #Switch on parameter set
         switch ($PSCmdlet.ParameterSetName) {
-            EXCEPTION {
-                $WriteLogParams = @{
-                    Level      = 'Error'
-                    Message    = $Exception.Exception.Message
-                    Path       = $Path
-                    JSONFormat = $JSONFormat
-                }
-                Write-Log @WriteLogParams
-                break
-
-            } #EXCEPTION
-            STARTNEW {
-                Remove-Item $Path -Force #-ErrorAction SilentlyContinue
-                $WriteLogParams = @{
-                    Level      = 'Info'
-                    Message    = 'Starting Logfile'
-                    Path       = $Path
-                    JSONFormat = $JSONFormat
-                }
-                Write-Log @WriteLogParams
-                break
-
-            } #STARTNEW
             LOG {
                 #Get human readable date
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -159,23 +136,51 @@
                 }
 
                 if ($JSONFormat) {
+                    #Build an object so we can later convert it
                     $logObject = [PSCustomObject]@{
                         TimeStamp = Get-Date -Format o  #Get machine readable date
                         Level     = $Level
                         Message   = $Message
                     }
-                    $logmessage = $logObject | ConvertTo-Json -Compress
+                    $logmessage = $logObject | ConvertTo-Json -Compress #Convert to a single line of JSON
                 }
                 else {
-                    $logmessage = "$FormattedDate $LevelText $Message"
+                    $logmessage = "$FormattedDate $LevelText $Message" #Build human readable line
                 }
 
-                $logmessage | Add-Content -Path $Path
-                Write-Verbose $logmessage
+                $logmessage | Add-Content -Path $Path #write the line to a file
+                Write-Verbose $logmessage #Only verbose line in the function
 
             } #LOG
+            EXCEPTION {
+                #Splat parameters
+                $WriteLogParams = @{
+                    Level      = 'Error'
+                    Message    = $Exception.Exception.Message
+                    Path       = $Path
+                    JSONFormat = $JSONFormat
+                }
+                Write-Log @WriteLogParams #Call itself to keep code clean
+                break
+
+            } #EXCEPTION
+            STARTNEW {
+                Remove-Item $Path -Force -ErrorAction SilentlyContinue #Suppress error in the case of the file not existing or cannot be deleted.
+                #Splat parameters
+                $WriteLogParams = @{
+                    Level      = 'Info'
+                    Message    = 'Starting Logfile'
+                    Path       = $Path
+                    JSONFormat = $JSONFormat
+                }
+                Write-Log @WriteLogParams
+                break
+
+            } #STARTNEW
+
         } #switch Parameter Set
     }
+
     END {
     }
 } #function
