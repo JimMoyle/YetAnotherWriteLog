@@ -167,7 +167,9 @@
             } #EXCEPTION
 
             STARTNEW {
-                Remove-Item $Path -Force -ErrorAction SilentlyContinue #Suppress error in the case of the file not existing or cannot be deleted.
+                if (Test-Path $Path){
+                    Remove-Item $Path -Force
+                }
                 #Splat parameters
                 $WriteLogParams = @{
                     Level      = 'Info'
