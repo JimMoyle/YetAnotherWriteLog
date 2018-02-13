@@ -2,7 +2,7 @@
     <#
         .SYNOPSIS
 
-        Single function to enable logging to a file
+        Single function to enable logging to a file.
         .DESCRIPTION
 
         The Log file can be output to any directory. A single log entry looks like this:
