@@ -18,6 +18,8 @@
 
         $PSDefaultParameterValues = @{"Write-Log:JSONformat" = $true}
 
+        Demo text
+
         .PARAMETER Message
 
         This is the body of the log line and should contain the information you wish to log.
