@@ -9,7 +9,7 @@
 
         .SYNOPSIS
 
-        Single function to enable logging to a file
+        Single function to enable logging to a file.
         .DESCRIPTION
 
         The Log file can be output to any directory. A single log entry looks like this:
@@ -42,10 +42,11 @@
         Used to pass a powershell exception to the logging function for automatic logging
         .PARAMETER JSONFormat
 
-        Used to chenge the logging format from human readable to machine readable format, this will be a single line like the example format below:
+        Used to change the logging format from human readable to machine readable format, this will be a single line like the example format below:
         In this format the timestamp will include a much more granular time which will also include timezone information.
 
         {"TimeStamp":"2018-02-01T12:01:24.8908638+00:00","Level":"Warn","Message":"My message"}
+
         .EXAMPLE
         Write-Log -StartNew
         Starts a new logfile in the default location
