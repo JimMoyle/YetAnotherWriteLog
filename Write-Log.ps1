@@ -91,7 +91,7 @@
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'LOG',
             Position = 1 )]
-        [ValidateSet('Error', 'Warn', 'Info', 'Debug')]
+        [ValidateSet('Error', 'Warning', 'Info', 'Debug')]
         [string]$Level = "Info",
 
         [Parameter(Mandatory = $false,
@@ -127,9 +127,9 @@
                 $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
                 switch ( $Level ) {
-                    'Error' { $LevelText = "ERROR:  "; break }
-                    'Warn' { $LevelText = "WARNING:"; break }
                     'Info' { $LevelText = "INFO:   "; break }
+                    'Error' { $LevelText = "ERROR:  "; break }
+                    'Warning' { $LevelText = "WARNING:"; break }
                     'Debug' { $LevelText = "DEBUG:  "; break }
                 }
 

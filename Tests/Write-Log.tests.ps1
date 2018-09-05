@@ -9,7 +9,7 @@ Describe 'Write-Log' {
             # Arrange
             $pipeInput = [PSCustomObject]@{
                 Message    = 'ValueFromPipelineByPropertyName Input'
-                Level      = 'Warn'
+                Level      = 'Warning'
                 JSONFormat = $true
                 Path       = 'TestDrive:\Pipeline.log'
             }
@@ -39,7 +39,7 @@ Describe 'Write-Log' {
         }
         It 'Takes Parameters Positionally'{
             # Act
-            Write-Log 'Positional Input' 'Warn' 'TestDrive:\Position.log'
+            Write-Log 'Positional Input' 'Warning' 'TestDrive:\Position.log'
             # Assert
             Get-Content -Path 'TestDrive:\Position.log' | Should -BeLike "*Positional Input*"
         }
@@ -93,11 +93,11 @@ Describe 'Write-Log' {
             (Get-Content TestDrive:\json.log | ConvertFrom-Json).Level | Should -Be 'Info'
         }
 
-        It 'Has Warn Level' {
+        It 'Has Warning Level' {
             # Act
-            Write-Log -Level Warn -Message 'Warning Test' -JSONFormat -Path TestDrive:\Warn.log
+            Write-Log -Level Warning -Message 'Warning Test' -JSONFormat -Path TestDrive:\Warning.log
             # Assert
-            (Get-Content TestDrive:\Warn.log | ConvertFrom-Json).Level | Should -Be 'Warn'
+            (Get-Content TestDrive:\Warning.log | ConvertFrom-Json).Level | Should -Be 'Warning'
         }
 
         It 'Has Error Level' {
