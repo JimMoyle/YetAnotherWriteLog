@@ -82,15 +82,15 @@
         [Parameter(Mandatory = $true,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
-            Position = 0,
-            ParameterSetName = 'LOG')]
+            ParameterSetName = 'LOG',
+            Position = 0)]
         [ValidateNotNullOrEmpty()]
         [string]$Message,
 
         [Parameter(Mandatory = $false,
             ValueFromPipelineByPropertyName = $true,
-            Position = 1,
-            ParameterSetName = 'LOG')]
+            ParameterSetName = 'LOG',
+            Position = 1 )]
         [ValidateSet('Error', 'Warn', 'Info', 'Debug')]
         [string]$Level = "Info",
 
@@ -100,18 +100,15 @@
         [string]$Path = "$env:temp\PowershellScript.log",
 
         [Parameter(Mandatory = $false,
-            ValueFromPipelineByPropertyName = $true,
-            Position = 3)]
+            ValueFromPipelineByPropertyName = $true)]
         [switch]$JSONFormat,
 
         [Parameter(Mandatory = $false,
             ValueFromPipelineByPropertyName = $true,
-            Position = 4,
             ParameterSetName = 'STARTNEW')]
         [switch]$StartNew,
 
         [Parameter(Mandatory = $true,
-            Position = 5,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             ParameterSetName = 'EXCEPTION')]

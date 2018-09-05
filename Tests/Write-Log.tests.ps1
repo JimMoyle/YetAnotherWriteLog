@@ -8,7 +8,7 @@ Describe 'Write-Log' {
         It 'Takes an object as pipeline input' {
             # Arrange
             $pipeInput = [PSCustomObject]@{
-                Message    = 'Pipeline Input'
+                Message    = 'ValueFromPipelineByPropertyName Pipeline Input'
                 Level      = 'Warn'
                 JSONFormat = $true
                 Path       = 'TestDrive:\Pipeline.log'
@@ -16,7 +16,7 @@ Describe 'Write-Log' {
             # Act
             $pipeInput | Write-Log
             # Assert
-            (Get-Content TestDrive:\Pipeline.log).Count | Should -Be 1
+            Get-Content TestDrive:\Pipeline.log | Should -BeLike "*ValueFromPipelineByPropertyName Pipeline Input*"
         }
         It 'Takes a single string as pipeline Input' {
             'Pipeline String Input' | Write-Log -Path TestDrive:\PipelineSingle.log -JSONFormat
@@ -30,6 +30,10 @@ Describe 'Write-Log' {
         }
         It 'Takes an Exception as pipeline input and outputs the correct level' {
             (Get-Content TestDrive:\PipelineErr.log | ConvertFrom-Json).Level | Should -Be 'Error'
+        }
+        It 'Takes Parameters Positionally'{
+            Write-Log 'Positional Input' 'Warn' 'TestDrive:\Position.log'
+            Get-Content -Path 'TestDrive:\Position.log' | Should -BeLike "*Positional Input*"
         }
     }
 
