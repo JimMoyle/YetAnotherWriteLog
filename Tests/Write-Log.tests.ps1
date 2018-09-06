@@ -41,16 +41,16 @@ Describe 'Write-Log' {
             # Act
             Write-Log 'Positional Input' 'Warning' 'TestDrive:\Position.log'
             # Assert
-            Get-Content -Path 'TestDrive:\Position.log' | Should -BeLike "*Positional Input*"
+            (Get-Content -Path 'TestDrive:\Position.log')[1] | Should -BeLike "*Positional Input*"
         }
     }
 
     Context 'Execution'{
 
-        It 'Has a single line in the human readable log' {
+        It 'Has a single line of logging in the human readable log' {
             Write-Log 'Single Line' -path TestDrive:\Line.log
             # Assert
-            (Get-Content TestDrive:\Line.log).Count | Should -Be 1
+            (Get-Content TestDrive:\Line.log).Count | Should -Be 2
         }
 
         It 'Has a single line in the JSON log' {
@@ -68,10 +68,10 @@ Describe 'Write-Log' {
             # Act
             Write-Log -StartNew -Path TestDrive:\Restart.log
             # Assert
-            Get-Content TestDrive:\Restart.log | Should -HaveCount 1
+            Get-Content TestDrive:\Restart.log | Should -HaveCount 2
         }
     }
-    
+
     Context 'Output'{
 
         It 'Produces comment based help' {
@@ -126,6 +126,14 @@ Describe 'Write-Log' {
             $verboseLine = Write-Log 'Verbose Test' -Verbose 4>&1
             # Assert
             $verboseLine.count | Should -Be 1
+        }
+
+        It 'Imports Human readable log as a CSV file' {
+            # Act
+            Write-log 'CSV Test' -Path TestDrive:\CSV.log
+            $csv = Import-Csv -Path TestDrive:\CSV.log -Delimiter "`t"
+            # Assert
+            $csv.message | Should -Be 'CSV Test'
         }
     }
 }
