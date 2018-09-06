@@ -7,15 +7,15 @@
 	 Github: https://github.com/JimMoyle/YetAnotherWriteLog
 	 Twitter: @jimmoyle
 
-        .SYNOPSIS
+                .SYNOPSIS
 
-        Single function to enable logging to a file.
+        Single function to enable logging to file.
         .DESCRIPTION
 
         The Log file can be output to any directory. A single log entry looks like this:
         2018-01-30 14:40:35 INFO:    'My log text'
 
-        Log entries can be Info, Warn, Error or Debug
+        Log entries can be Info, Warning, Error or Debug
 
         The function takes pipeline input and you can even pipe exceptions straight to the function for automatic logging.
 
@@ -30,7 +30,7 @@
         This is the body of the log line and should contain the information you wish to log.
         .PARAMETER Level
 
-        One of four logging levels: INFO, WARN, ERROR or DEBUG.  This is an optional parameter and defaults to INFO
+        One of four logging levels: INFO, WARNING, ERROR or DEBUG.  This is an optional parameter and defaults to INFO
         .PARAMETER Path
 
         The path where you want the log file to be created.  This is an optional parameter and defaults to "$env:temp\PowershellScript.log"
@@ -45,7 +45,7 @@
         Used to change the logging format from human readable to machine readable format, this will be a single line like the example format below:
         In this format the timestamp will include a much more granular time which will also include timezone information.
 
-        {"TimeStamp":"2018-02-01T12:01:24.8908638+00:00","Level":"Warn","Message":"My message"}
+        {"TimeStamp":"2018-02-01T12:01:24.8908638+00:00","Level":"Warning","Message":"My message"}
 
         .EXAMPLE
         Write-Log -StartNew
@@ -60,7 +60,7 @@
         Appends a new information line to the log.
 
         .EXAMPLE
-        Write-Log -level warning 'This is a warning'
+        Write-Log -level Warning 'This is a warning'
         Appends a new warning line to the log.
 
         .EXAMPLE
