@@ -133,20 +133,24 @@
                     'Debug' { $LevelText = "DEBUG:  "; break }
                 }
 
-                if ($JSONFormat) {
-                    #Build an object so we can later convert it
-                    $logObject = [PSCustomObject]@{
-                        TimeStamp = Get-Date -Format o  #Get machine readable date
-                        Level     = $Level
-                        Message   = $Message
-                    }
-                    $logmessage = $logObject | ConvertTo-Json -Compress #Convert to a single line of JSON
-                }
-                else {
-                    $logmessage = "$FormattedDate $LevelText $Message" #Build human readable line
+                #Build an object so we can later convert it
+
+                $logObject = [PSCustomObject]@{
+                    TimeStamp = Get-Date -Format o  #Get machine readable date
+                    Level     = $Level
+                    Message   = $Message
                 }
 
-                $logmessage | Add-Content -Path $Path #write the line to a file
+                if ($JSONFormat) {
+                    #Convert to a single line of JSON and add it to the file
+                    $logmessage = $logObject | ConvertTo-Json -Compress
+                    $logmessage | Add-Content -Path $Path
+                }
+                else {
+                    $logmessage = "$FormattedDate`t$LevelText`t$Message" #Build human readable line
+                    $logObject | Export-Csv -Path $Path -Delimiter "`t" -NoTypeInformation -Append
+                }
+
                 Write-Verbose $logmessage #Only verbose line in the function
 
             } #LOG
@@ -165,7 +169,7 @@
             } #EXCEPTION
 
             STARTNEW {
-                if (Test-Path $Path){
+                if (Test-Path $Path) {
                     Remove-Item $Path -Force
                 }
                 #Splat parameters
