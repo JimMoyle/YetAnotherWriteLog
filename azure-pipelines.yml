@@ -23,6 +23,7 @@ steps:
     Write-Output $PSVErsiontable
     Install-Module -Name Pester -Force -SkipPublisherCheck
     Get-Module -Name Pester
+    Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
   displayName: 'Install Pester'
 
 #- job: 'Run Pester'
