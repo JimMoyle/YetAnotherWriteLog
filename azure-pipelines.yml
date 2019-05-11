@@ -21,7 +21,7 @@ steps:
     Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
   displayName: 'Install and Run Pester'
 
-  -task: PublishTestResults@2
+- task: PublishTestResults@2
     displayname: Publish Results
     inputs:
       testRunTitle: 'Pester Test Results'
