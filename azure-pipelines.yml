@@ -13,18 +13,22 @@ steps:
 - script: echo Hello, world!
   displayName: 'Write-Log'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
 #- job: 'Install Pester'
 - powershell: 
     Write-Output $PSVErsiontable
     Install-Module -Name Pester -Force -SkipPublisherCheck
     Get-Module -Name Pester
     Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
-  displayName: 'Install Pester'
+  displayName: 'Install and Run Pester'
+
+  -task: PublishTestResults@2
+    displayname: Publish Results
+    inputs:
+      testRunTitle: 'Pester Test Results'
+      buildPlatform: 'Windows'
+      testRunner: 'NUnit'
+      testResultsFile: ''.\PesterTest.xml'
+      failTaskOnFailedTests: true
 
 #- job: 'Run Pester'
   #powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
