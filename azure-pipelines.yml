@@ -19,4 +19,5 @@ steps:
   displayName: 'Run a multi-line script'
 
 - powershell: Write-Output $PSVErsiontable
+- powershell: Install-Module -Name Pester
 - powershell: Get-Module -Name Pester
