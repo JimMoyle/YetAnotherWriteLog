@@ -20,10 +20,10 @@ steps:
 
 - job: 'Install Pester'
   powershell: Write-Output $PSVErsiontable
-  powershell: Install-Module -Name Pester -Force -SkipPublisherCheck
-  powershell: Get-Module -Name Pester
+  Install-Module -Name Pester -Force -SkipPublisherCheck
+  Get-Module -Name Pester
   displayName: 'Install Pester'
 
 - job: 'Run Pester'
-  powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
+  #powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
   displayName: 'Run Pester'
