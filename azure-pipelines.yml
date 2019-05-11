@@ -18,13 +18,13 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-- job: 'Install Pester'
-  powershell: 
+#- job: 'Install Pester'
+- powershell: 
     Write-Output $PSVErsiontable
     Install-Module -Name Pester -Force -SkipPublisherCheck
     Get-Module -Name Pester
   displayName: 'Install Pester'
 
-- job: 'Run Pester'
+#- job: 'Run Pester'
   #powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
-  displayName: 'Run Pester'
+#  displayName: 'Run Pester'
