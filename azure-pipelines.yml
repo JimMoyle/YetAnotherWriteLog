@@ -9,15 +9,19 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Write-Log'
+#steps:
+#- script: echo Hello, world!
+#  displayName: 'Write-Log'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+#- script: |
+#    echo Add other tasks to build, test, and deploy your project.
+#    echo See https://aka.ms/yaml
+#  displayName: 'Run a multi-line script'
 
 - powershell: Write-Output $PSVErsiontable
-- powershell: Install-Module -Name Pester -Force -SkipPublisherCheck
-- powershell: Get-Module -Name Pester
+  powershell: Install-Module -Name Pester -Force -SkipPublisherCheck
+  powershell: Get-Module -Name Pester
+  displayName: 'Install Pester'
+
+- powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
+  displayName: 'Run Pester'
