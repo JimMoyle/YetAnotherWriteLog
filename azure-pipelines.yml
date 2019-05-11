@@ -20,8 +20,8 @@ steps:
 
 - job: 'Install Pester'
   powershell: Write-Output $PSVErsiontable
-  Install-Module -Name Pester -Force -SkipPublisherCheck
-  Get-Module -Name Pester
+  powershell: Install-Module -Name Pester -Force -SkipPublisherCheck
+  powershell: Get-Module -Name Pester
   displayName: 'Install Pester'
 
 - job: 'Run Pester'
