@@ -28,13 +28,12 @@ steps:
     #workingDirectory: # Optional
 
 - task: PublishTestResults@2
-    displayname: Publish Results
-    inputs:
-      testRunTitle: 'Pester Test Results'
-      buildPlatform: 'Windows'
-      testRunner: 'NUnit'
-      testResultsFile: ''.\PesterTest.xml'
-      failTaskOnFailedTests: true
+  inputs:
+    testRunTitle: 'Pester Test Results'
+    buildPlatform: 'Windows'
+    testRunner: 'NUnit'
+    testResultsFiles: '.\PesterTest.xml'
+    failTaskOnFailedTests: true
 
 #- job: 'Run Pester'
   #powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
