@@ -17,9 +17,7 @@ steps:
     #filePath: # Required when targetType == FilePath
     #arguments: # Optional
     script:
-      Write-Information $PSVersiontable;
       Install-Module -Name Pester -Force -SkipPublisherCheck;
-      Get-Module -Name Pester;
       Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml; # Required when targetType == Inline
     #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
     #failOnStderr: false # Optional
