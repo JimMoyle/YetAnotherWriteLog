@@ -11,14 +11,25 @@ pool:
 
 steps:
 - task: PowerShell@2
-  displayName: 'Install and Run Pester'
+  displayName: 'Install Newest Pester Version'
   inputs:
     targetType: 'inline' # Optional. Options: filePath, inline
     #filePath: # Required when targetType == FilePath
     #arguments: # Optional
-    script:
-      Install-Module -Name Pester -Force -SkipPublisherCheck;
-      Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml -CodeCoverage write-log.ps1 -CodeCoverageOutputFile CodeCoverage.xml; # Required when targetType == Inline
+    script: Install-Module -Name Pester -Force -SkipPublisherCheck # Required when targetType == Inline
+    #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+    #failOnStderr: false # Optional
+    #ignoreLASTEXITCODE: false # Optional
+    #pwsh: false # Optional
+    #workingDirectory: # Optional
+
+- task: PowerShell@2
+  displayName: 'Run Pester Tests'
+  inputs:
+    targetType: 'inline' # Optional. Options: filePath, inline
+    #filePath: # Required when targetType == FilePath
+    #arguments: # Optional
+    script: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml -CodeCoverage write-log.ps1 -CodeCoverageOutputFile CodeCoverage.xml # Required when targetType == Inline
     #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
     #failOnStderr: false # Optional
     #ignoreLASTEXITCODE: false # Optional
