@@ -2,7 +2,7 @@
     <#
         .SYNOPSIS
 
-        Single function to enable logging to file. Test
+        Single function to enable logging to file.
         .DESCRIPTION
 
         The Log file can be output to any directory. A single log entry looks like this:
@@ -10,11 +10,11 @@
 
         Log entries can be Info, Warning, Error or Debug
 
-        The function takes pipeline input and you can even pipe exceptions straight to the function for automatic logging.
+        The function takes pipeline input and you can pipe exceptions straight to the function for automatic logging.
 
         The $PSDefaultParameterValues built-in Variable can be used to conveniently set the path and/or JSONformat switch at the top of the script:
 
-        $PSDefaultParameterValues = @{"Write-Log:Path" = 'C:\YourPathHere'}
+        $PSDefaultParameterValues = @{"Write-Log:Path" = 'C:\YourPathHere.log'}
 
         $PSDefaultParameterValues = @{"Write-Log:JSONformat" = $true}
 
@@ -29,14 +29,14 @@
         The path where you want the log file to be created.  This is an optional parameter and defaults to "$env:temp\PowershellScript.log"
         .PARAMETER StartNew
 
-        This will blank any current log in the path, it should be used at the start of a script when you don't want to append to an existing log.
+        This will blank any current log in the path, it should be used at the start of your code if you don't want to append to an existing log.
         .PARAMETER Exception
 
-        Used to pass a powershell exception to the logging function for automatic logging
+        Used to pass a powershell exception to the logging function for automatic logging, this will log the excption message as an error.
         .PARAMETER JSONFormat
 
         Used to change the logging format from human readable to machine readable format, this will be a single line like the example format below:
-        In this format the timestamp will include a much more granular time which will also include timezone information.
+        In this format the timestamp will include a much more granular time which will also include timezone information.  The format is optimised for Splunk input, but should work for any other platform.
 
         {"TimeStamp":"2018-02-01T12:01:24.8908638+00:00","Level":"Warning","Message":"My message"}
 
