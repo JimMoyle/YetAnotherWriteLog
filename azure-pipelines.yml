@@ -33,6 +33,10 @@ steps:
     testResultsFiles: '.\PesterTest.xml'
     failTaskOnFailedTests: true
 
-#- job: 'Run Pester'
-  #powershell: Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
-#  displayName: 'Run Pester'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
+    summaryFileLocation: '.\CodeCoverage.xml'
+    #reportDirectory: # Optional
+    #additionalCodeCoverageFiles: # Optional
+    #failIfCoverageEmpty: false # Optional
