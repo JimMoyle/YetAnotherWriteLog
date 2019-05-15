@@ -18,7 +18,7 @@ steps:
     #arguments: # Optional
     script:
       Install-Module -Name Pester -Force -SkipPublisherCheck;
-      Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml; # Required when targetType == Inline
+      Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml -CodeCoverage write-log.ps1 -CodeCoverageOutputFile CodeCoverage.xml; # Required when targetType == Inline
     #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
     #failOnStderr: false # Optional
     #ignoreLASTEXITCODE: false # Optional
