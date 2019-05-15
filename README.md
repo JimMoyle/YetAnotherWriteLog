@@ -1,6 +1,5 @@
 [![Build Status](https://dev.azure.com/jsmoyle/Write-Log/_apis/build/status/JimMoyle.YetAnotherWriteLog?branchName=master)](https://dev.azure.com/jsmoyle/Write-Log/_build/latest?definitionId=1&branchName=master)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/bio64jgm5edcte50?svg=true)](https://ci.appveyor.com/project/JimMoyle/yetanotherwritelog)
 # YetAnotherWriteLog
 
 
