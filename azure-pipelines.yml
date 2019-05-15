@@ -9,7 +9,7 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
-- task: PowerShell@2
+task: PowerShell@2
   displayName: 'Install and Run Pester'
   inputs:
     targetType: 'inline' # Optional. Options: filePath, inline
