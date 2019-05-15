@@ -9,17 +9,22 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Write-Log'
-
-#- job: 'Install Pester'
-- powershell: 
-    Write-Output $PSVErsiontable
-    Install-Module -Name Pester -Force -SkipPublisherCheck
-    Get-Module -Name Pester
-    Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml
+- task: PowerShell@2
   displayName: 'Install and Run Pester'
+  inputs:
+    targetType: 'inline' # Optional. Options: filePath, inline
+    #filePath: # Required when targetType == FilePath
+    #arguments: # Optional
+    script:     
+      Write-Output $PSVErsiontable
+      Install-Module -Name Pester -Force -SkipPublisherCheck
+      Get-Module -Name Pester
+      Invoke-Pester -OutputFile PesterTest.xml -OutputFormat NUnitXml' # Required when targetType == Inline
+    #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+    #failOnStderr: false # Optional
+    #ignoreLASTEXITCODE: false # Optional
+    #pwsh: false # Optional
+    #workingDirectory: # Optional
 
 - task: PublishTestResults@2
     displayname: Publish Results
