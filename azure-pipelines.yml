@@ -18,7 +18,8 @@ steps:
     #arguments: # Optional
     script: Install-Module -Name Pester -Force -SkipPublisherCheck; 
       $module = Get-Module -Name Pester;
-      Write-Information "Module $($module.Name) $($module.Version.toString()) installed"  # Required when targetType == Inline
+      Write-Host $module;
+      Write-Host "Module $($module.Name) $($module.Version.toString()) installed";  # Required when targetType == Inline
     #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
     #failOnStderr: false # Optional
     #ignoreLASTEXITCODE: false # Optional
