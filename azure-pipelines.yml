@@ -16,10 +16,10 @@ steps:
     targetType: 'inline' # Optional. Options: filePath, inline
     #filePath: # Required when targetType == FilePath
     #arguments: # Optional
-    script: Install-Module -Name Pester -Force -SkipPublisherCheck; 
-      $module = Get-Module -Name Pester;
-      Write-Host $module;
-      Write-Host "Module $($module.Name) $($module.Version.toString()) installed";  # Required when targetType == Inline
+    script: Install-Module -Name Pester -Force -SkipPublisherCheck; Write-Host Get-Module -Name Pester
+      #$module = Get-Module -Name Pester;
+      #Write-Host $module;
+      #Write-Host "Module $($module.Name) $($module.Version.toString()) installed";  # Required when targetType == Inline
     #errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
     #failOnStderr: false # Optional
     #ignoreLASTEXITCODE: false # Optional
