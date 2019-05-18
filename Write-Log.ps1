@@ -124,46 +124,46 @@
         switch ($PSCmdlet.ParameterSetName) {
             LOG {
                 #Get human readable date
-                $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                $formattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
                 switch ( $Level ) {
-                    'Info' { $LevelText = "INFO:   "; break }
-                    'Error' { $LevelText = "ERROR:  "; break }
-                    'Warning' { $LevelText = "WARNING:"; break }
-                    'Debug' { $LevelText = "DEBUG:  "; break }
+                    'Info' { $levelText = "INFO:   "; break }
+                    'Error' { $levelText = "ERROR:  "; break }
+                    'Warning' { $levelText = "WARNING:"; break }
+                    'Debug' { $levelText = "DEBUG:  "; break }
                 }
 
                 #Build an object so we can later convert it
 
                 $logObject = [PSCustomObject]@{
                     TimeStamp = Get-Date -Format o  #Get machine readable date
-                    Level     = $Level
+                    Level     = $levelText
                     Message   = $Message
                 }
 
                 if ($JSONFormat) {
                     #Convert to a single line of JSON and add it to the file
-                    $logmessage = $logObject | ConvertTo-Json -Compress
-                    $logmessage | Add-Content -Path $Path
+                    $logMessage = $logObject | ConvertTo-Json -Compress
+                    $logMessage | Add-Content -Path $Path
                 }
                 else {
-                    $logmessage = "$FormattedDate`t$LevelText`t$Message" #Build human readable line
+                    $logMessage = "$formattedDate`t$levelText`t$Message" #Build human readable line
                     $logObject | Export-Csv -Path $Path -Delimiter "`t" -NoTypeInformation -Append
                 }
 
-                Write-Verbose $logmessage #Only verbose line in the function
+                Write-Verbose $logMessage #Only verbose line in the function
 
             } #LOG
 
             EXCEPTION {
                 #Splat parameters
-                $WriteLogParams = @{
+                $writeLogParams = @{
                     Level      = 'Error'
                     Message    = $Exception.Exception.Message
                     Path       = $Path
                     JSONFormat = $JSONFormat
                 }
-                Write-Log @WriteLogParams #Call itself to keep code clean
+                Write-Log @writeLogParams #Call itself to keep code clean
                 break
 
             } #EXCEPTION
@@ -173,13 +173,13 @@
                     Remove-Item $Path -Force
                 }
                 #Splat parameters
-                $WriteLogParams = @{
+                $writeLogParams = @{
                     Level      = 'Info'
                     Message    = 'Starting Logfile'
                     Path       = $Path
                     JSONFormat = $JSONFormat
                 }
-                Write-Log @WriteLogParams
+                Write-Log @writeLogParams
                 break
 
             } #STARTNEW
