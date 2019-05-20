@@ -79,6 +79,7 @@
 
     [CmdletBinding(DefaultParametersetName = "LOG")]
     Param (
+
         [Parameter(Mandatory = $true,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
@@ -135,18 +136,28 @@
 
                 #Build an object so we can later convert it
 
-                $logObject = [PSCustomObject]@{
-                    TimeStamp = Get-Date -Format o  #Get machine readable date
-                    Level     = $levelText
-                    Message   = $Message
+                $logObject = @{
+                    #TimeStamp = Get-Date -Format o  #Get machine readable date
+                    Level   = $levelText
+                    Message = $Message
                 }
 
                 if ($JSONFormat) {
+                    $logobject = [PSCustomObject][ordered]@{
+                        TimeStamp = Get-Date -Format o
+                        Level   = $levelText
+                        Message = $Message
+                    }
                     #Convert to a single line of JSON and add it to the file
                     $logMessage = $logObject | ConvertTo-Json -Compress
                     $logMessage | Add-Content -Path $Path
                 }
                 else {
+                    $logobject = [PSCustomObject][ordered]@{
+                        TimeStamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                        Level   = $levelText
+                        Message = $Message
+                    }
                     $logMessage = "$formattedDate`t$levelText`t$Message" #Build human readable line
                     $logObject | Export-Csv -Path $Path -Delimiter "`t" -NoTypeInformation -Append
                 }
