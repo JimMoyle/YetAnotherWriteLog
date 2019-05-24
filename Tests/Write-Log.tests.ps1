@@ -143,13 +143,5 @@ Describe 'Write-Log' {
             #Assert
             $csv.TimeStamp | Should -Match "\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
         }
-
-        It 'Has the correct date format in user readable log' {
-            #Act
-            Write-log 'Date Test' -Path TestDrive:\Date.log
-            $csv = Import-Csv -Path TestDrive:\Date.log -Delimiter "`t"
-            #Assert
-            $csv.TimeStamp | Should -Match "\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
-        }
     }
 }
