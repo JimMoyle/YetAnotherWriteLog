@@ -35,7 +35,7 @@ Describe 'Write-Log' {
         }
         It 'Takes an Exception as pipeline input and outputs the correct level' {
             # Assert
-            (Get-Content TestDrive:\PipelineErr.log | ConvertFrom-Json).Level | Should -Be 'Error'
+            (Get-Content TestDrive:\PipelineErr.log | ConvertFrom-Json).Level | Should -Be 'ERROR:  '
         }
         It 'Takes Parameters Positionally'{
             # Act
@@ -90,28 +90,28 @@ Describe 'Write-Log' {
 
         It 'Has Info Level' {
             # Assert
-            (Get-Content TestDrive:\json.log | ConvertFrom-Json).Level | Should -Be 'Info'
+            (Get-Content TestDrive:\json.log | ConvertFrom-Json).Level | Should -Be 'INFO:   '
         }
 
         It 'Has Warning Level' {
             # Act
             Write-Log -Level Warning -Message 'Warning Test' -JSONFormat -Path TestDrive:\Warning.log
             # Assert
-            (Get-Content TestDrive:\Warning.log | ConvertFrom-Json).Level | Should -Be 'Warning'
+            (Get-Content TestDrive:\Warning.log | ConvertFrom-Json).Level | Should -Be 'WARNING:'
         }
 
         It 'Has Error Level' {
             # Act
             Write-Log -Level Error -Message 'Error Test' -JSONFormat -Path TestDrive:\Error.log
             # Assert
-            (Get-Content TestDrive:\Error.log | ConvertFrom-Json).Level | Should -Be 'Error'
+            (Get-Content TestDrive:\Error.log | ConvertFrom-Json).Level | Should -Be 'ERROR:  '
         }
 
         It 'Has Debug Level' {
             # Act
             Write-Log -Level Debug -Message 'Debug Test' -JSONFormat -Path TestDrive:\Debug.log
             # Assert
-            (Get-Content TestDrive:\Debug.log | ConvertFrom-Json).Level | Should -Be 'Debug'
+            (Get-Content TestDrive:\Debug.log | ConvertFrom-Json).Level | Should -Be 'DEBUG:  '
         }
 
         It 'Has the correct message' {
@@ -123,7 +123,7 @@ Describe 'Write-Log' {
 
         It 'Only outputs a single verbose line' {
             # Act
-            $verboseLine = Write-Log 'Verbose Test' -Verbose 4>&1
+            $verboseLine = Write-Log 'Verbose Test' -Path TestDrive:\Verbose.txt -Verbose 4>&1
             # Assert
             $verboseLine.count | Should -Be 1
         }
@@ -134,6 +134,14 @@ Describe 'Write-Log' {
             $csv = Import-Csv -Path TestDrive:\CSV.log -Delimiter "`t"
             # Assert
             $csv.message | Should -Be 'CSV Test'
+        }
+
+        It 'Has the correct date format in user readable log' {
+            #Act
+            Write-log 'Date Test' -Path TestDrive:\Date.log
+            $csv = Import-Csv -Path TestDrive:\Date.log -Delimiter "`t"
+            #Assert
+            $csv.TimeStamp | Should -Match "\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
         }
     }
 }
