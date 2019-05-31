@@ -78,7 +78,7 @@ Describe 'Write-Log' {
             # Act
             $h = help Write-Log
             # Assert
-            $h.count | Should BeGreaterThan 10
+            $h.count | Should -BeGreaterThan 10
         }
 
         It 'Has a timestamp' {
