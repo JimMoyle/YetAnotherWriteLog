@@ -1,4 +1,5 @@
 [![Build Status](https://dev.azure.com/jsmoyle/Write-Log/_apis/build/status/JimMoyle.YetAnotherWriteLog?branchName=master)](https://dev.azure.com/jsmoyle/Write-Log/_build/latest?definitionId=1&branchName=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1db209dcc2c04aa8b1e243248b4176a8)](https://www.codacy.com/app/JimMoyle/YetAnotherWriteLog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JimMoyle/YetAnotherWriteLog&amp;utm_campaign=Badge_Grade)
 
 # YetAnotherWriteLog
 
