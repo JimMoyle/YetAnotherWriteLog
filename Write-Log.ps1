@@ -10,9 +10,9 @@
 
         Log entries can be Info, Warning, Error or Debug
 
-        The function takes pipeline input and you can pipe exceptions straight to the function for automatic logging.
+        The function takes pipeline input and you can pipe exceptions straight to the function for automatic error logging.
 
-        The $PSDefaultParameterValues built-in Variable can be used to conveniently set the path and/or JSONformat switch at the top of the script:
+        It's not part of this function, but it can be useful to use the $PSDefaultParameterValues built-in Variable can be used to conveniently set the path and/or JSONformat switch at the top of the script:
 
         $PSDefaultParameterValues = @{"Write-Log:Path" = 'C:\YourPathHere.log'}
 
